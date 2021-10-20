@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lil_wardrobe/ui/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
       // 2
       home: Navigator(
-        pages: [],
+        pages: [MaterialPage(child: LoginPage())],
         onPopPage: (route, result) => route.didPop(result),
       ),
     );
