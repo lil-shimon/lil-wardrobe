@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lil_wardrobe/services/auth_service.dart';
 import 'package:lil_wardrobe/ui/pages/login_page.dart';
 import 'package:lil_wardrobe/ui/pages/signup_page.dart';
 
@@ -6,26 +7,44 @@ void main() {
   runApp(MyApp());
 }
 
-// 1
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+  /// AuthServiceのインスタンスを作成
+  final _authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Photo Gallery App',
       theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
-      // 2
-      home: Navigator(
-        pages: [ 
-          MaterialPage(child: LoginPage()),
-          MaterialPage(child: SignUpPage())
-        ],
-        onPopPage: (route, result) => route.didPop(result),
-      ),
+      home: StreamBuilder<AuthState>(
+        /// authStateControllerからAuthStateストリームにアクセス
+        stream: _authService.authStateController.stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Navigator(
+              pages: [
+                if (snapshot.data!.authFlowStatus == AuthFlowStatus.login)
+                  MaterialPage(child: LoginPage()),
+                if (snapshot.data!.authFlowStatus == AuthFlowStatus.signUp)
+                  MaterialPage(child: SignUpPage())
+              ],
+              onPopPage: (route, result) => route.didPop(result),
+            );
+          } else {
+            /// streamにデータがない場合circularを表示
+            return Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      )
     );
   }
 }
