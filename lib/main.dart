@@ -38,9 +38,13 @@ class _MyAppState extends State<MyApp> {
             return Navigator(
               pages: [
                 if (snapshot.data!.authFlowStatus == AuthFlowStatus.login)
-                  MaterialPage(child: LoginPage()),
+                  MaterialPage(child: LoginPage(
+                    shouldShowSignUp: _authService.showSignUp
+                  )),
                 if (snapshot.data!.authFlowStatus == AuthFlowStatus.signUp)
-                  MaterialPage(child: SignUpPage())
+                  MaterialPage(child: SignUpPage(
+                    shouldShowLogin: _authService.showLogin
+                  ))
               ],
               onPopPage: (route, result) => route.didPop(result),
             );
