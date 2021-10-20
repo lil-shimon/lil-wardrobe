@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:lil_wardrobe/models/auth_credentials.dart';
+
 ///認証フローとして4つの段階がある
 enum AuthFlowStatus { login, signUp, verification, session }
 
@@ -18,6 +20,21 @@ class AuthService {
 
   void showLogin() {
     final state =  AuthState(authFlowStatus: AuthFlowStatus.login);
+    authStateController.add(state);
+  }
+
+  /// ユーザーをsession状態におく関数
+  /// credentials [AuthCredentials]
+  void loginWithCredentials(AuthCredentials credentials) {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+    authStateController.add(state);
+  }
+
+  /// サインアップ時に状態をverificationにする関数
+  /// signUp->Emailを検証する必要がある
+  /// credentials [SignUpCredentials]
+  void signUpWithCredentials(SignUpCredentials credentials) {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
     authStateController.add(state);
   }
 }
