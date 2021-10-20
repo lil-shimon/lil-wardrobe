@@ -18,6 +18,14 @@ class _MyAppState extends State<MyApp> {
   final _authService = AuthService();
 
   @override
+  void initState() {
+    super.initState();
+
+    /// 状態が初期化された時ログイン状態を送信
+    _authService.showLogin();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Photo Gallery App',
