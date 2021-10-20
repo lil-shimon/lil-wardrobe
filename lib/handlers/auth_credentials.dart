@@ -11,7 +11,7 @@ abstract class AuthCredentials {
 /// ユーザー名[String]とパスワード[String]のみを必要としている
 class LoginCredentials extends AuthCredentials {
   LoginCredentials({ required String username, required String password})
-    : super(username: username, password: password)
+    : super(username: username, password: password);
 }
 
 /// サインアップの具体的実装
