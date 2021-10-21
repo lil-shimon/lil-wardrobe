@@ -44,6 +44,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void _verify() {
+    ///検証コードをwidget treeに渡す
     final verificationCode = _verificationCodeController.text.trim();
     widget.didProvideVerificationCode(verificationCode);
   }
