@@ -39,7 +39,8 @@ class _MyAppState extends State<MyApp> {
               pages: [
                 if (snapshot.data!.authFlowStatus == AuthFlowStatus.login)
                   MaterialPage(child: LoginPage(
-                    shouldShowSignUp: _authService.showSignUp
+                    shouldShowSignUp: _authService.showSignUp,
+                    didProvideCredentials: _authService.loginWithCredentials,
                   )),
                 if (snapshot.data!.authFlowStatus == AuthFlowStatus.signUp)
                   MaterialPage(child: SignUpPage(
