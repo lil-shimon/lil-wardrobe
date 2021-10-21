@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lil_wardrobe/models/auth_credentials.dart';
 
 class SignUpPage extends StatefulWidget {
 
   final VoidCallback shouldShowLogin;
 
-  SignUpPage({ Key? key, required this.shouldShowLogin });
+  final ValueChanged<SignUpCredentials> didProvideCredentials;
+
+  SignUpPage({ Key? key, required this.shouldShowLogin, required this.didProvideCredentials }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SignUpPageState();
@@ -79,5 +82,9 @@ class _SignUpPageState extends State<SignUpPage> {
     print('username: $username');
     print('email: $email');
     print('password: $password');
+
+    /// サインアップ認証情報をセット
+    final credentials = SignUpCredentials(username: username, password: password, email: email);
+    widget.didProvideCredentials(credentials);
   }
 }
