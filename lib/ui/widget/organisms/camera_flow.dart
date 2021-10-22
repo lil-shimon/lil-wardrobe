@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:lil_wardrobe/ui/pages/gallery_page.dart';
 
 class CameraFlow extends StatefulWidget {
   /// ユーザーがログアウトして状態が元通りになった時にトリガーされる
@@ -20,7 +21,10 @@ class _CameraFlowState extends State<CameraFlow>{
   /// computedプロパティを使用して、現在の状態に適切なナビゲーションスタックを返す
   List<MaterialPage> get _pages {
     return [
-      MaterialPage(child: Placeholder()),
+      MaterialPage(child: GalleryPage(
+        shouldLogOut: widget.shouldLogOut,
+        shouldShowCamera: () => _toggleCameraOpen(true),
+      )),
       if (_shouldShowCamera)
       MaterialPage(child: Placeholder())
     ];
