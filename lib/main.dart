@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lil_wardrobe/services/auth_service.dart';
 import 'package:lil_wardrobe/ui/pages/login_page.dart';
 import 'package:lil_wardrobe/ui/pages/signup_page.dart';
+import 'package:lil_wardrobe/ui/pages/verification_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,7 +47,11 @@ class _MyAppState extends State<MyApp> {
                   MaterialPage(child: SignUpPage(
                     shouldShowLogin: _authService.showLogin,
                     didProvideCredentials: _authService.signUpWithCredentials,
-                  ))
+                  )),
+                if (snapshot.data!.authFlowStatus == AuthFlowStatus.verification)
+                  MaterialPage(
+                    child: VerificationPage(didProvideVerificationCode: _authService.verifyCode)
+                  ),
               ],
               onPopPage: (route, result) => route.didPop(result),
             );

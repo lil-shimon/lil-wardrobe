@@ -37,4 +37,11 @@ class AuthService {
     final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
     authStateController.add(state);
   }
+
+  /// 検証コードを処理し、状態をsessionにする関数
+  /// verificationCode [String]
+  void verifyCode(String verificationCode) {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+    authStateController.add(state);
+  }
 }
