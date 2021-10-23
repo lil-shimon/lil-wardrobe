@@ -5,7 +5,11 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CameraPage extends StatefulWidget {
+
+  /// CameraDescriptionのインスタンスを取得
   final CameraDescription camera;
+
+  /// カメラで撮影された画像へのローカルパス
   final ValueChanged didProvideImagePath;
 
   CameraPage({ Key? key, required this.camera, required this.didProvideImagePath }) 
@@ -16,6 +20,8 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+
+  /// 初期化
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
@@ -32,11 +38,13 @@ class _CameraPageState extends State<CameraPage> {
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
+          /// Future Builder -> カメラ映像のpreview or circularを表示
           return (snapshot.connectionState == ConnectionState.done)
             ? CameraPreview(this._controller) 
             : Center(child: CircularProgressIndicator());
         },
       ),
+      /// Buttonが押されると写真を撮る
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera), onPressed: _takePicture
       ),

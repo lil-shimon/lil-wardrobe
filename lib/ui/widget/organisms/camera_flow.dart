@@ -1,6 +1,8 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:lil_wardrobe/ui/pages/camera_page.dart';
 import 'package:lil_wardrobe/ui/pages/gallery_page.dart';
 
 class CameraFlow extends StatefulWidget {
@@ -14,6 +16,10 @@ class CameraFlow extends StatefulWidget {
 }
 
 class _CameraFlowState extends State<CameraFlow>{
+
+  /// CameraDescriptionインスタンスを作成
+  late CameraDescription _camera;
+
   /// カメラを表示する、しない
   bool _shouldShowCamera = false;
 
@@ -26,8 +32,25 @@ class _CameraFlowState extends State<CameraFlow>{
         shouldShowCamera: () => _toggleCameraOpen(true),
       )),
       if (_shouldShowCamera)
-      MaterialPage(child: Placeholder())
+      MaterialPage(
+        /// カメラページはカメラで初期化
+        /// 写真が撮られた時にimagePathを返す
+        /// 写真を撮ったらカメラを閉じる
+        child: CameraPage(
+          camera: _camera,
+          didProvideImagePath: (imagePath) {
+            this._toggleCameraOpen(false);
+          }
+        )
+      )
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    /// CameraFlowStateが初期化したらすぐ呼ぶ
+    _getCamera();
   }
 
   @override
@@ -42,6 +65,15 @@ class _CameraFlowState extends State<CameraFlow>{
   void _toggleCameraOpen(bool isOpen) {
     setState(() {
       this._shouldShowCamera = isOpen;
+    });
+  }
+
+  /// _cameraを取得し初期化する関数
+  void _getCamera() async {
+    final cameraList = await availableCameras();
+    setState(() {
+      final firstCamera = camerasList.first;
+      this._camera = firstCamera;
     });
   }
 }
