@@ -44,4 +44,10 @@ class AuthService {
     final state = AuthState(authFlowStatus: AuthFlowStatus.session);
     authStateController.add(state);
   }
+
+  /// ログアウト関数
+  void logOut() {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.login);
+    authStateController.add(state);
+  }
 }
