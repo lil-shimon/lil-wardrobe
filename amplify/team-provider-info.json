@@ -1,0 +1,28 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lilwardrobe-dev-105416-authRole",
+      "UnauthRoleArn": "arn:aws:iam::251560624221:role/amplify-lilwardrobe-dev-105416-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::251560624221:role/amplify-lilwardrobe-dev-105416-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-lilwardrobe-dev-105416-deployment",
+      "UnauthRoleName": "amplify-lilwardrobe-dev-105416-unauthRole",
+      "StackName": "amplify-lilwardrobe-dev-105416",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:251560624221:stack/amplify-lilwardrobe-dev-105416/78575c20-3536-11ec-98f9-068875dc9763",
+      "AmplifyAppId": "d3re9ypi7cnxv8"
+    }
+  },
+  "wardrobe": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lilwardrobe-wardrobe-105910-authRole",
+      "UnauthRoleArn": "arn:aws:iam::251560624221:role/amplify-lilwardrobe-wardrobe-105910-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::251560624221:role/amplify-lilwardrobe-wardrobe-105910-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-lilwardrobe-wardrobe-105910-deployment",
+      "UnauthRoleName": "amplify-lilwardrobe-wardrobe-105910-unauthRole",
+      "StackName": "amplify-lilwardrobe-wardrobe-105910",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:251560624221:stack/amplify-lilwardrobe-wardrobe-105910/25c84cc0-3537-11ec-aab3-062bdbc94911",
+      "AmplifyAppId": "d3re9ypi7cnxv8"
+    }
+  }
+}
