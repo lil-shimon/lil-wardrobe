@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lil_wardrobe/amplifyconfiguration.dart';
 import 'package:lil_wardrobe/services/auth_service.dart';
 import 'package:lil_wardrobe/ui/pages/login_page.dart';
 import 'package:lil_wardrobe/ui/pages/signup_page.dart';
@@ -20,12 +21,18 @@ class _MyAppState extends State<MyApp> {
   /// AuthServiceのインスタンスを作成
   final _authService = AuthService();
 
+  /// Amplifyのインタスタンスを作成
+  final _amplify = Amplify();
+
   @override
   void initState() {
     super.initState();
 
     /// 状態が初期化された時ログイン状態を送信
     _authService.showLogin();
+
+    ///状態が初期化された時Amplifyを設定
+    _configureAmplify();
   }
 
   @override
@@ -75,5 +82,15 @@ class _MyAppState extends State<MyApp> {
         },
       )
     );
+  }
+
+  /// Amplifyを設定する関数
+  void _configureAmplify() async {
+    try {
+      await _amplify.configure(amplifyconfig);
+      print("configure Amplify");
+    } catch (err) {
+      print("could not configure Amplify");
+    }
   }
 }
