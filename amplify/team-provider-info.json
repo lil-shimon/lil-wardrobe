@@ -23,6 +23,11 @@
       "StackName": "amplify-lilwardrobe-wardrobe-105910",
       "StackId": "arn:aws:cloudformation:ap-northeast-1:251560624221:stack/amplify-lilwardrobe-wardrobe-105910/25c84cc0-3537-11ec-aab3-062bdbc94911",
       "AmplifyAppId": "d3re9ypi7cnxv8"
+    },
+    "categories": {
+      "auth": {
+        "lilwardrobeef900727": {}
+      }
     }
   }
 }
