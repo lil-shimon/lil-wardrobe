@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:lil_wardrobe/models/auth_credentials.dart';
 
 ///認証フローとして4つの段階がある
@@ -7,11 +8,15 @@ enum AuthFlowStatus { login, signUp, verification, session }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
-  AuthState({ required this.authFlowStatus });
+  AuthState({required this.authFlowStatus});
 }
 
 class AuthService {
   final authStateController = StreamController<AuthState>();
+
+  /// AuthCredentialsプロパティ
+  /// サインアッププロセス中、メモリにsignUpCredentialsを保持する
+  late AuthCredentials _credentials;
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -19,7 +24,7 @@ class AuthService {
   }
 
   void showLogin() {
-    final state =  AuthState(authFlowStatus: AuthFlowStatus.login);
+    final state = AuthState(authFlowStatus: AuthFlowStatus.login);
     authStateController.add(state);
   }
 
@@ -33,9 +38,29 @@ class AuthService {
   /// サインアップ時に状態をverificationにする関数
   /// signUp->Emailを検証する必要がある
   /// credentials [SignUpCredentials]
-  void signUpWithCredentials(SignUpCredentials credentials) {
-    final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
-    authStateController.add(state);
+  void signUpWithCredentials(SignUpCredentials credentials) async {
+    try {
+      /// サインアップにユーザーのメールアドレスを渡すため作成
+      final userAttributes = {'email': credentials.email};
+
+      /// Cognitoにサインアップするためにユーザー情報を渡す
+      final result = await Amplify.Auth.signUp(
+          username: credentials.username,
+          password: credentials.password,
+          options: CognitoSignUpOptions(userAttributes: userAttributes));
+
+      /// 正常だった場合メールアドレスの認証
+      /// プロセスが終わっていた場合はログインにする
+      if (result.isSignUpComplete) {
+        loginWithCredentials(credentials);
+      } else {
+        this._credentials = credentials;
+        final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
+        authStateController.add(state);
+      }
+    } on AuthError catch (authError) {
+      print("サインアップに失敗しました。 >>> ${authError.cause}");
+    }
   }
 
   /// 検証コードを処理し、状態をsessionにする関数
