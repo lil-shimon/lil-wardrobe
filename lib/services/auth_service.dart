@@ -31,11 +31,26 @@ class AuthService {
 
   /// ユーザーをsession状態におく関数
   /// credentials [AuthCredentials]
-  void loginWithCredentials(AuthCredentials credentials) {
-    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
-    authStateController.add(state);
+  void loginWithCredentials(AuthCredentials credentials) async {
+    try {
+      final result = await Amplify.Auth.signIn(
+        username: _credentials.username, password: _credentials.password
+      );
+      /// サインイン成功と現在のユーザーがサインインしていることをresult.isSignedInで確認したら
+      /// AuthFlow状態をsessionに更新
+      if (result.isSignedIn) {
+        final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+        authStateController.add(state);
+      } else {
+        print("サインインできません");
+      }
+    } on AuthError catch (authError) {
+      print("ログインできません >>> ${authError.cause}"):
+    }
   }
+   
 
+  /// 
   /// サインアップ時に状態をverificationにする関数
   /// signUp->Emailを検証する必要がある
   /// credentials [SignUpCredentials]
