@@ -33,6 +33,10 @@ class _MyAppState extends State<MyApp> {
 
     ///状態が初期化された時Amplifyを設定
     _configureAmplify();
+
+    /// アプリに戻ってきた時、ログインしている状態にできるかを見る
+    /// かつてログインしていた人はログイン処理を飛ばす
+    _authService.checkAuthStatus();
   }
 
   @override

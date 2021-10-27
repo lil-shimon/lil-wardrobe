@@ -103,6 +103,7 @@ class AuthService {
   }
 
   /// アプリに戻ってきた時、自動でログイン状態に戻す関数
+  /// 失敗したらログイン画面に飛ばします
   void checkAuthStatus () async {
     try {
       await Amplify.Auth.fetchAuthSession();
