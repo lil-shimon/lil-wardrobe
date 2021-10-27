@@ -50,7 +50,6 @@ class AuthService {
   }
    
 
-  /// 
   /// サインアップ時に状態をverificationにする関数
   /// signUp->Emailを検証する必要がある
   /// credentials [SignUpCredentials]
@@ -95,8 +94,11 @@ class AuthService {
   }
 
   /// ログアウト関数
-  void logOut() {
-    final state = AuthState(authFlowStatus: AuthFlowStatus.login);
-    authStateController.add(state);
+  void logOut() async {
+    try {
+      await Amplify.Auth.SignOut();
+    } on AuthError catch (authError) {
+      print("ログアウトできませんでした >>> ${authError.cause}");
+    }
   }
 }
