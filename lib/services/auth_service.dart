@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:flutter/material.dart';
 import 'package:lil_wardrobe/models/auth_credentials.dart';
 
 ///認証フローとして4つの段階がある
@@ -65,9 +66,17 @@ class AuthService {
 
   /// 検証コードを処理し、状態をsessionにする関数
   /// verificationCode [String]
-  void verifyCode(String verificationCode) {
-    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
-    authStateController.add(state);
+  void verifyCode(String verificationCode) async {
+    try {
+      /// VerificationPageからのコードをconfirmSignUpにパス
+      final result = await Amplify.Auth.cofirmSignUp(
+          usernname: _credentials.username, confirmationCode: verificationCode);
+
+      /// ユーザーがログインできる状態かをテスト
+      loginWithCredentials(_credentials);
+    } on AuthError catch (authError) {
+      print('codeがvarifyされませんでした >>> ${authError.cause}');
+    }
   }
 
   /// ログアウト関数
