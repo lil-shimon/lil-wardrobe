@@ -101,4 +101,17 @@ class AuthService {
       print("ログアウトできませんでした >>> ${authError.cause}");
     }
   }
+
+  /// アプリに戻ってきた時、自動でログイン状態に戻す関数
+  void checkAuthStatus () async {
+    try {
+      await Amplify.Auth.fetchAuthSession();
+
+      final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+      authStateController.add(state);
+    } catch (_) {
+      final state = AuthState(authFlowStatus: AuthFlowStatus.login);
+      authStateController.add(state);
+    }
+  }
 }
