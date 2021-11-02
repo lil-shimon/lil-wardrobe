@@ -1,6 +1,6 @@
 {
     "identityPoolName": "lilwardrobeef900727_identitypool_ef900727",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "lilwaref900727",
     "userPoolName": "lilwardrobeef900727_userpool_ef900727",
     "autoVerifiedAttributes": [
@@ -20,6 +20,7 @@
     "requiredAttributes": [
         "email"
     ],
+    "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
